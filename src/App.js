@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import Users from './user/pages/Users';
+import Users from './user/pages/pages/Users';
 import NewPlace from './places/pages/NewPlace';
 
 function App() {
