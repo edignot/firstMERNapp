@@ -16,7 +16,7 @@ const MainNavigation = (props) => {
         <>
             {drawerIsOpen && <Backdrop onClick={toggleDrawer} />}
 
-            <SideDrawer show={drawerIsOpen}>
+            <SideDrawer show={drawerIsOpen} closeSideDrawer={toggleDrawer}>
                 <nav className='main0navigation__drawer-nav'>
                     <NavLinks />
                 </nav>

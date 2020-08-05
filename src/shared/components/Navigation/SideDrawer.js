@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import './SideDrawer.css';
 
-const SideDrawer = ({ children, show }) => {
+const SideDrawer = ({ children, show, closeSideDrawer }) => {
     const content = (
         <CSSTransition
             in={show}
@@ -12,7 +12,9 @@ const SideDrawer = ({ children, show }) => {
             mountOnEnter
             unmountOnExit
         >
-            <aside className='side-drawer'>{children}</aside>
+            <aside className='side-drawer' onClick={closeSideDrawer}>
+                {children}
+            </aside>
         </CSSTransition>
     );
     return createPortal(content, document.getElementById('drawer-hook'));
