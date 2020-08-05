@@ -31,11 +31,13 @@ const Input = (props) => {
         errorText,
         validators,
         onInput,
+        value,
+        valid,
     } = props;
 
     const [inputState, dispatch] = useReducer(inputReducer, {
-        value: '',
-        inValid: false,
+        value: value || '',
+        inValid: valid || false,
         isTouched: false,
     });
 
