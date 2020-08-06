@@ -10,7 +10,7 @@ const DUMMY_PLACES = [
         title: 'TITLE1',
         description: 'DESCRIPTION1',
         address: 'ADDRESS1',
-        creatorId: 'CREATOR1',
+        creatorId: '2',
         coordinates: {
             lat: 39.73915,
             lng: -104.9847,
@@ -33,7 +33,6 @@ const DUMMY_PLACES = [
 
 const UserPlaces = () => {
     const userId = useParams().userId;
-    console.log(userId);
     const loadedPlaces = DUMMY_PLACES.filter(
         (place) => place.creatorId === userId
     );
