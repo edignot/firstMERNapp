@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import './Auth.css';
+import React, { useState, useContext } from 'react';
 import Card from '../../../shared/components/UIElements/Card';
 import Input from '../../../shared/components/FormElements/Input';
 import Button from '../../../shared/components/FormElements/Button';
@@ -9,15 +8,15 @@ import {
     VALIDATOR_REQUIRE,
 } from '../../../shared/components/util/validators';
 import { useForm } from '../../../shared/hooks/form-hook';
+import './Auth.css';
+import { AuthContext } from '../../../shared/context/auth-context';
 
 const Auth = () => {
+    const auth = useContext(AuthContext);
+
     const [isLoginMode, setIsLoginMode] = useState(true);
 
-    const switchModeHandler = () => {
-        setIsLoginMode((prevMode) => !prevMode);
-    };
-
-    const [formState, inputHandler] = useForm(
+    const [formState, inputHandler, setFormData] = useForm(
         {
             email: {
                 value: '',
@@ -31,9 +30,35 @@ const Auth = () => {
         false
     );
 
+    const switchModeHandler = () => {
+        if (!isLoginMode) {
+            setFormData(
+                {
+                    ...formState.inputs,
+                    name: undefined,
+                },
+                formState.inputs.email.isValid &&
+                    formState.inputs.password.isValid
+            );
+        } else {
+            setFormData(
+                {
+                    ...formState.inputs,
+                    name: {
+                        value: '',
+                        isValid: false,
+                    },
+                },
+                false
+            );
+        }
+        setIsLoginMode((prevMode) => !prevMode);
+    };
+
     const authSubmitHandler = (e) => {
         e.preventDefault();
         console.log(formState);
+        auth.login();
     };
 
     return (
@@ -48,7 +73,7 @@ const Auth = () => {
                         type='text'
                         label='name'
                         validators={[VALIDATOR_REQUIRE()]}
-                        errorText='Please enter a valid email address'
+                        errorText='Please enter your name'
                         onInput={inputHandler}
                     />
                 )}
@@ -75,7 +100,7 @@ const Auth = () => {
                 </Button>
             </form>
             <Button inverse onClick={switchModeHandler}>
-                {isLoginMode ? 'SIGNUP' : 'LOGIN'}
+                {isLoginMode ? 'SWITCH TO SIGNUP' : 'SWITCH TO LOGIN'}
             </Button>
         </Card>
     );
