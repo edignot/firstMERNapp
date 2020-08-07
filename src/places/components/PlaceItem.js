@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './PlaceItem.css';
 import Card from '../../shared/components/UIElements/Card';
 import Button from '../../shared/components/FormElements/Button';
 import Modal from '../../shared/components/UIElements/Modal';
 import Map from '../../shared/components/UIElements/Map';
+import { AuthContext } from '../../shared/context/auth-context';
 
 const PlaceItem = ({ place }) => {
+    const auth = useContext(AuthContext);
+
     const [showMap, setShowMap] = useState(false);
 
     const toggleMapHandler = () => {
@@ -23,7 +26,6 @@ const PlaceItem = ({ place }) => {
     };
 
     const deleteHandler = () => {
-        //TEMPORALLY
         alert('DELETING');
     };
 
@@ -82,10 +84,15 @@ const PlaceItem = ({ place }) => {
                         <Button inverse onClick={toggleMapHandler}>
                             VIEW ON MAP
                         </Button>
-                        <Button to={`/places/${id}`}>EDIT</Button>
-                        <Button danger onClick={toggleDeleteHandler}>
-                            DELETE
-                        </Button>
+
+                        {auth.isLoggedIn && (
+                            <>
+                                <Button to={`/places/${id}`}>EDIT</Button>
+                                <Button danger onClick={toggleDeleteHandler}>
+                                    DELETE
+                                </Button>
+                            </>
+                        )}
                     </div>
                 </Card>
             </li>
