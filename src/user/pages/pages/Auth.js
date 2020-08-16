@@ -15,6 +15,8 @@ const Auth = () => {
     const auth = useContext(AuthContext);
 
     const [isLoginMode, setIsLoginMode] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setError] = useState();
 
     const [formState, inputHandler, setFormData] = useForm(
         {
@@ -61,6 +63,7 @@ const Auth = () => {
         if (isLoginMode) {
         } else {
             try {
+                setIsLoading(true);
                 const response = await fetch(
                     'http://localhost:5000/api/users/signup',
                     {
@@ -77,13 +80,15 @@ const Auth = () => {
                 );
 
                 const responseData = await response.json();
-                console.log(responseData);
+                setIsLoading(false);
+                auth.login();
             } catch (err) {
                 console.log(err);
+                setIsLoading(false);
+                setError(err.message || 'Something went wrong...');
             }
         }
-
-        auth.login();
+        setIsLoading(false);
     };
 
     return (
